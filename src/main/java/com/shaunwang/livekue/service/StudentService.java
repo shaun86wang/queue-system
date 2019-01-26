@@ -4,6 +4,7 @@ package com.shaunwang.livekue.service;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Seconds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,14 @@ public class StudentService {
 	
 	// select
 	public Student getNextStudent() {
-		Student student = studentRepo.findFirstByStatusAndPlannedTimeLessThanOrderByInlineDateTimeAsc(Status.INLINE, new DateTime());
+		Student student = studentRepo.findFirstByStatusOrderByInlineDateTimeAsc(Status.INLINE);
 		student.setStatus(Status.WAITING);
-		student.setStartTime(new DateTime());;
-		return student;
+		student.setStartTime(new DateTime());
+		return studentRepo.save(student);
+	}
+	
+	public Student getStudentInfoById(long id) {
+		return studentRepo.findById(id);
 	}
 	
 	public Student getStudentInfo(String email) {
@@ -50,20 +55,34 @@ public class StudentService {
 		return lineLength * EstimatorService.getEstServiceTime();
 	}
 	
-	//update
-	
-	public void studentServed(Student student) {
-		student.setEndTime(new DateTime());
-		long totalTime = student.getEndTime().compareTo(student.getStartTime());
-		student.setTotalTime(Math.toIntExact(totalTime) * 1000);
-		studentRepo.save(student);
+	public List<String> getInlineStudents(){
+		return studentRepo.queryInlineStudents();
 	}
 	
-	public Student studentCanceled(long id) {
-		Student student = studentRepo.getOne(id);
-		student.setStatus(Status.CANCELED);
-		Student savedStudent = studentRepo.save(student);
-		return savedStudent;
+	//update
+	
+	public void studentServed(long id, String comment) {
+		DateTime startTime = studentRepo.getOne(id).getStartTime();
+		int totalTime = Seconds.secondsBetween(startTime, new DateTime()).getSeconds();
+		studentRepo.updateEndTimeAndTotalTimeAndStatusAndComment(id, new DateTime(), totalTime, Status.SERVED, comment);
+	}
+	
+	public void studentAbsent(long id) {
+		studentRepo.updateEndTimeAndTotalTimeAndStatusAndComment(id, new DateTime(), 0, Status.ABSENT, "");
+	}
+	
+	public void studentHere(long id) {
+		studentRepo.updateStartTime(id, new DateTime());
+	}
+	
+	public long cancelStudent(long id) {
+		studentRepo.updateStatus(id, Status.CANCELED);
+		Student s = studentRepo.getOne(id);
+		if(s.getStatus() == Status.CANCELED) {
+			return id;
+		}else {
+			return -1;
+		}
 	}
 	
 	public void updateDescription(long id, String description) {
@@ -72,6 +91,9 @@ public class StudentService {
 	
 	//create
 	public long addStudent(String email, String description, ServiceType serviceType) {
+		if(this.isStudentInlineOrWaiting(email)) return -1;
+		if(EstimatorService.getWaitTime() == -1) return -2;
+		
 		User user = userRepository.findByEmail(email);
 		Student student = new Student();
 		student.setStudentName(user.getStudentName());
@@ -83,18 +105,23 @@ public class StudentService {
 		student.setDescription(description);
 		student.setServiceType(serviceType);
 		
-		if(EstimatorService.getWaitTime() == -1) {
-			return -1;
-		} else {
-			
-			Student s = studentRepo.save(student);
-			return s.getId();
-		}
+		Student s = studentRepo.save(student);
 		
+		return s.getId();
 	}
 	
 	// estService
 	public int getUpdatedWaitTime() {
 		return estService.calculateWaitTime(studentRepo.countByStatus(Status.INLINE));
+	}
+	
+	private boolean isStudentInlineOrWaiting(String email) {
+		int studentCount = studentRepo.countByEmailAndStatus(email, Status.INLINE);
+		studentCount += studentRepo.countByEmailAndStatus(email, Status.WAITING);
+		if(studentCount > 0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

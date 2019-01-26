@@ -5,6 +5,5 @@ public enum Status {
 	ABSENT,
 	CANCELED,
 	INLINE,
-	NOT_EMAILED,
 	WAITING
 }

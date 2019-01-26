@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/user/checkStudentNumberAvailability", "/api/user/checkEmailAvailability")
                         .permitAll()
                     .anyRequest()
-                        .authenticated();
+                    	.permitAll();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

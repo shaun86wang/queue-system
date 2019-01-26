@@ -18,6 +18,7 @@ public class EstimatorService {
 		serviceTimes.add(20);
 		serviceTimes.add(20);
 		serviceTimes.add(20);
+		calculateServiceTime();
 	}
 	
 	public static int getWaitTime() {
@@ -37,17 +38,15 @@ public class EstimatorService {
 	public static void setEstServiceTime(int estServiceTime) {
 		EstimatorService.estServiceTime = estServiceTime;
 	}
-
-	private static int sum(Queue<Integer> list) {
-	    int sum = 0;
-	    for (int i: list) {
-	        sum += i;
-	    }
-	    return sum;
-	}
 	
 	private void calculateServiceTime() {
-		estServiceTime = sum(serviceTimes) / 100;
+		int sum = 0;
+		int count = 0;
+	    for (int i: serviceTimes) {
+	        sum += i;
+	        count++;
+	    }
+		estServiceTime = sum / count;
 	}
 	
 	public void addServiceTime(int t) {

@@ -41,9 +41,6 @@ public class StudentDto {
 	@Past
 	private DateTime inlineDateTime;
 	
-	@Future
-	private DateTime plannedTime;
-	
 	@Past
 	private DateTime startTime;
 	
@@ -117,13 +114,6 @@ public class StudentDto {
 		this.inlineDateTime = inlineDateTime;
 	}
 
-	public DateTime getPlannedTime() {
-		return plannedTime;
-	}
-
-	public void setPlannedTime(DateTime plannedTime) {
-		this.plannedTime = plannedTime;
-	}
 
 	public DateTime getStartTime() {
 		return startTime;
