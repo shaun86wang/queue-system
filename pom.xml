@@ -78,6 +78,46 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			 <plugin>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-webapp-maven-plugin</artifactId>
+            <!-- check Maven Central for the latest version -->
+            <version>1.5.3</version>
+            <configuration>
+                <schemaVersion>v2</schemaVersion>
+                <resourceGroup>live-kue</resourceGroup>
+                <appName>live-kue</appName>
+                <runtime>
+                    <os>linux</os>
+                    <javaVersion>jre8</javaVersion>
+                    <webContainer>tomcat 8.5</webContainer>
+                </runtime>
+                <appSettings>
+                	<property>
+                		<name>spring.datasource.url</name>
+                		<value>jdbc:mysql://127.0.0.1/livekue</value>
+                	</property>
+                	<property>
+                		<name>spring.datasource.username</name>
+                		<value>azure</value>
+                	</property>
+                	<property>
+                		<name>spring.datasource.password</name>
+                		<value>6#vWHD_$</value>
+                	</property>
+                </appSettings>
+                <deployment>
+                    <resources>
+                        <resource>
+                            <directory>${project.basedir}/target</directory>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                        </resource>
+                    </resources>
+                </deployment>
+            </configuration>
+        </plugin>
 		</plugins>
 	</build>
 
