@@ -54,7 +54,7 @@ public class StudentDto {
 	private Status status;
 	
 	@NotNull
-	private ServiceType serviceType;
+	private int serviceType;
 	
 	private String stationComment;
 
@@ -148,12 +148,12 @@ public class StudentDto {
 		this.status = status;
 	}
 
-	public ServiceType getServiceType() {
+	public int getServiceType() {
 		return serviceType;
 	}
 
 	public void setServiceType(ServiceType serviceType) {
-		this.serviceType = serviceType;
+		this.serviceType = serviceType.ordinal();
 	}
 
 	public String getStationComment() {

@@ -115,6 +115,10 @@ public class StudentService {
 		return estService.calculateWaitTime(studentRepo.countByStatus(Status.INLINE));
 	}
 	
+	public int getWaitingStudentsCount() {
+		return studentRepo.countByStatus(Status.INLINE);
+	}
+	
 	private boolean isStudentInlineOrWaiting(String email) {
 		int studentCount = studentRepo.countByEmailAndStatus(email, Status.INLINE);
 		studentCount += studentRepo.countByEmailAndStatus(email, Status.WAITING);

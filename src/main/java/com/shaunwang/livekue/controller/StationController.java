@@ -13,6 +13,8 @@ import com.shaunwang.livekue.dto.StudentDto;
 import com.shaunwang.livekue.model.Student;
 import com.shaunwang.livekue.service.StudentService;
 
+import helper.Mapper;
+
 @RestController
 @RequestMapping("/api/station")
 public class StationController {
@@ -23,14 +25,7 @@ public class StationController {
 	public ResponseEntity<StudentDto> getNextStudent(){
 		Student student = studentService.getNextStudent();
 		//mapping to be refactored
-		StudentDto studentDto = new StudentDto();
-		studentDto.setEmail(student.getEmail());
-		studentDto.setStudentName(student.getStudentName());
-		studentDto.setStudentNumber(student.getStudentNumber());
-		studentDto.setDisplayName(student.getDisplayName());
-		studentDto.setId(student.getId());
-		studentDto.setDescription(student.getDescription());
-		studentDto.setServiceType(student.getServiceType());
+		StudentDto studentDto = new Mapper().mapStudentToDto(student);
 		return ResponseEntity.ok(studentDto);
 	}
 	

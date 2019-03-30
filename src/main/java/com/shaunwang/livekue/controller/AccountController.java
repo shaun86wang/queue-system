@@ -8,6 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +58,13 @@ public class AccountController {
 
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new ApiResponse(jwt));
+    }
+    
+    @GetMapping("/getUserDetails/{email}")
+    public ResponseEntity<User> getUserDetails(@PathVariable String email){
+    	User user = userRepository.findByEmail(email);
+    	user.setPassword("");
+    	return ResponseEntity.ok(user);
     }
 
     @PostMapping("/signup")

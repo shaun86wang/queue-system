@@ -96,7 +96,7 @@
 					<appSettings>
 						<property>
 							<name>spring.datasource.url</name>
-							<value>jdbc:mysql://127.0.0.1/livekue</value>
+							<value>jdbc:mysql://127.0.0.1:/livekue</value>
 						</property>
 						<property>
 							<name>spring.datasource.username</name>

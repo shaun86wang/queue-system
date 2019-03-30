@@ -18,6 +18,8 @@ import com.shaunwang.livekue.model.Status;
 import com.shaunwang.livekue.model.Student;
 import com.shaunwang.livekue.service.StudentService;
 
+import helper.Mapper;
+
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
@@ -55,10 +57,16 @@ public class StudentController {
 		return ResponseEntity.ok(waitTime);
 	}
 	
+	@GetMapping("/getWaitingStudentsCount")
+	public ResponseEntity<Integer> getWaitingStudentsCount(){
+		return ResponseEntity.ok(studentService.getWaitingStudentsCount());
+	}
+	
 	@GetMapping("/getStudentInfo/{email}")
-	public ResponseEntity<Student> getStudentInfo(@PathVariable String email){
+	public ResponseEntity<StudentDto> getStudentInfo(@PathVariable String email){
 		Student student = studentService.getStudentInfo(email);
-		return ResponseEntity.ok(student);
+		StudentDto dto = new Mapper().mapStudentToDto(student);
+		return ResponseEntity.ok(dto);
 	}
 	
 	@GetMapping("/getWaitTimeForStudent/{id}")
@@ -78,21 +86,6 @@ public class StudentController {
 		return ResponseEntity.ok(new ApiResponse(students.toString()));
 	}
 	
-	
-	
-	
-	private Student MapStudentDtoToStudent(StudentDto dto) {
-		Student student = new Student();
-		student.setStudentName(dto.getStudentName());
-		student.setEmail(dto.getEmail());
-		student.setStudentNumber(dto.getStudentNumber());
-		student.setDisplayName(dto.getDisplayName());
-		student.setId(dto.getId());
-		student.setDescription(dto.getDescription());
-		student.setStationComment(dto.getStationComment());
-		return student;
-	}
-
 
 }
 
