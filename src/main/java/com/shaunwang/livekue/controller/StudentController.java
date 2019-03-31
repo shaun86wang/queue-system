@@ -41,7 +41,7 @@ public class StudentController {
 		}
 	}
 	
-	@PostMapping("/cancelStudent/{id}")
+	@PutMapping("/cancelStudent/{id}")
 	public ResponseEntity<?> cancelStudent(@PathVariable long id){
 		long response = studentService.cancelStudent(id);
 		if(response == id) {
@@ -77,7 +77,7 @@ public class StudentController {
 	@PostMapping("/updateDescription")
 	public ResponseEntity<ApiResponse> updateDescription(@Valid @RequestBody UpdateDescriptionRequest request) {
 		studentService.updateDescription(request.getId(), request.getDescription());
-		return ResponseEntity.ok(new ApiResponse("Description Updated"));
+		return ResponseEntity.ok(new ApiResponse(request.getDescription()));
 	}
 	
 	@GetMapping("/getInlineStudents")

@@ -13,6 +13,7 @@ public class Mapper {
 		studentDto.setId(student.getId());
 		studentDto.setDescription(student.getDescription());
 		studentDto.setServiceType(student.getServiceType());
+		studentDto.setStatus(student.getStatus());
 		return studentDto;
 	}
 }
