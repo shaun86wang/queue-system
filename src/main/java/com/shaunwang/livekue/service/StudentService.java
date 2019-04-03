@@ -50,9 +50,9 @@ public class StudentService {
 	}
 	
 	
-	public int getWaitTimeForStudent(long id) {
+	public int getWaitAheadForStudent(long id) {
 		int lineLength =  studentRepo.countByIdLessThanAndStatus(id, Status.INLINE);
-		return lineLength * EstimatorService.getEstServiceTime();
+		return lineLength;
 	}
 	
 	public List<String> getInlineStudents(){

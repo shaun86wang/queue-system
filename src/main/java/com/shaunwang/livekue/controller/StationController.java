@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shaunwang.livekue.dto.ApiResponse;
 import com.shaunwang.livekue.dto.StudentDto;
+import com.shaunwang.livekue.dto.StudentServedRequest;
 import com.shaunwang.livekue.model.Student;
 import com.shaunwang.livekue.service.StudentService;
 
@@ -35,9 +37,9 @@ public class StationController {
 		return ResponseEntity.ok(new ApiResponse("Student Status Updated"));
 	}
 	
-	@PostMapping("/studentHere/{id}")
-	public ResponseEntity studentHere(@PathVariable long id) {
-		studentService.studentHere(id);
-		return ResponseEntity.ok(new ApiResponse("Student start time recorded"));
+	@PostMapping("/studentServed")
+	public ResponseEntity studentServed(@RequestBody StudentServedRequest request) {
+		studentService.studentServed(request.id, request.comment);
+		return ResponseEntity.ok(new ApiResponse(Long.toString(request.id)));
 	}
 }

@@ -69,9 +69,9 @@ public class StudentController {
 		return ResponseEntity.ok(dto);
 	}
 	
-	@GetMapping("/getWaitTimeForStudent/{id}")
-	public ResponseEntity<Integer> getWaitTimeForStudent(long id) {
-		return ResponseEntity.ok(studentService.getWaitTimeForStudent(id));
+	@GetMapping("/getWaitAheadForStudent/{id}")
+	public ResponseEntity<Integer> getWaitAheadForStudent(@PathVariable long id) {
+		return ResponseEntity.ok(studentService.getWaitAheadForStudent(id));
 	}
 	
 	@PostMapping("/updateDescription")

@@ -17,11 +17,11 @@ public class SocketController {
 	@Autowired
 	StudentService studentService;
 	
-	@CrossOrigin
 	@SendTo("/clientSocket/getInlineStudents")
 	@MessageMapping("/getInlineStudents")
     public String getInlineStudents() throws Exception {
 		List<String> students = studentService.getInlineStudents();
-		return "[\"" + String.join("\",\"", students) + "\"]";
+		return students.size() + ":[\"" + String.join("\",\"", students) + "\"]";
     }
+	
 }
