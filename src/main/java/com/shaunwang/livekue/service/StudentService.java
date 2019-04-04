@@ -28,12 +28,18 @@ public class StudentService {
 	UserRepository userRepository;
 	
 	
+	
 	// select
 	public Student getNextStudent() {
 		Student student = studentRepo.findFirstByStatusOrderByInlineDateTimeAsc(Status.INLINE);
 		student.setStatus(Status.WAITING);
 		student.setStartTime(new DateTime());
 		return studentRepo.save(student);
+	}
+	
+	public Student peekNextStudent() {
+		Student student = studentRepo.findFirstByStatusOrderByInlineDateTimeAsc(Status.INLINE);
+		return student;
 	}
 	
 	public Student getStudentInfoById(long id) {
@@ -90,7 +96,7 @@ public class StudentService {
 	}
 	
 	//create
-	public long addStudent(String email, String description, ServiceType serviceType) {
+	public long addStudent(String email, String description, ServiceType serviceType, String phoneNumber) {
 		if(this.isStudentInlineOrWaiting(email)) return -1;
 		if(EstimatorService.getWaitTime() == -1) return -2;
 		
@@ -104,6 +110,7 @@ public class StudentService {
 		student.setStatus(Status.INLINE);
 		student.setDescription(description);
 		student.setServiceType(serviceType);
+		student.setPhoneNumber(phoneNumber);
 		
 		Student s = studentRepo.save(student);
 		

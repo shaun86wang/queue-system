@@ -49,6 +49,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
 	@Query("update Student s set s.description = ?2 where s.id = ?1 ")
 	void updateDescription(long id, String description);
 	
+	
 	@Modifying
 	@Transactional
 	@Query("update Student s set s.status = ?2 where s.id = ?1")

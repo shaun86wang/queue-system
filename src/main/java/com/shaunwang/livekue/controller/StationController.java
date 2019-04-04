@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shaunwang.livekue.dto.ApiResponse;
 import com.shaunwang.livekue.dto.StudentDto;
 import com.shaunwang.livekue.dto.StudentServedRequest;
+import com.shaunwang.livekue.helper.Mapper;
 import com.shaunwang.livekue.model.Student;
+import com.shaunwang.livekue.service.NotificationServiceInterface;
 import com.shaunwang.livekue.service.StudentService;
-
-import helper.Mapper;
 
 @RestController
 @RequestMapping("/api/station")
@@ -23,9 +23,21 @@ public class StationController {
 	@Autowired 
 	StudentService studentService;
 	
+	@Autowired
+	NotificationServiceInterface notificationService;
+	
 	@GetMapping("/getNextStudent")
 	public ResponseEntity<StudentDto> getNextStudent(){
 		Student student = studentService.getNextStudent();
+		String studentMessage = "Hi " + student.getStudentName() + " , please go up to the counter.";
+		notificationService.sendNotification(student, studentMessage);
+		
+		Student studentAfter = studentService.peekNextStudent();
+		if(studentAfter != null) {
+			String studentAfterMessage = "Hi " + studentAfter.getStudentName() + ", you are next in line to be served.";
+			notificationService.sendNotification(studentAfter, studentAfterMessage);
+		}
+		
 		//mapping to be refactored
 		StudentDto studentDto = new Mapper().mapStudentToDto(student);
 		return ResponseEntity.ok(studentDto);

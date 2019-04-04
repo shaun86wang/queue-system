@@ -1,4 +1,4 @@
-package helper;
+package com.shaunwang.livekue.helper;
 
 import com.shaunwang.livekue.dto.StudentDto;
 import com.shaunwang.livekue.model.Student;

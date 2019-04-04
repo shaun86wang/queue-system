@@ -21,6 +21,11 @@ public class Student extends DateAudit {
 	@Size(max=8)
 	private String studentNumber;
 	
+
+	private String phoneNumber;
+	
+
+
 	@NotBlank
 	@Size(max=4)
 	private String displayName;
@@ -163,7 +168,13 @@ public class Student extends DateAudit {
 	}
 
 	
-	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	
 	
 	

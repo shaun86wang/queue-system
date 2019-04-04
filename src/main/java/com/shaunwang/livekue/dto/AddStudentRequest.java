@@ -15,6 +15,8 @@ public class AddStudentRequest {
 	@NotNull
 	private ServiceType serviceType;
 	
+	private String phoneNumber;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -33,6 +35,13 @@ public class AddStudentRequest {
 	public void setServiceType(ServiceType serviceType) {
 		this.serviceType = serviceType;
 	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
 	
 	
 }
