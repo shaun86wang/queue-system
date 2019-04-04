@@ -24,3 +24,6 @@
 /nbdist/
 /.nb-gradle/
 homebrew/
+
+### application properties ###
+src/main/resources/application.properties
